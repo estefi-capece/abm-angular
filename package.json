@@ -1,0 +1,17 @@
+{
+  "name": "abm-angular",
+  "description": "Taller ABM con angularJs",
+  "version": "0.0.1",
+  "author": "estefi-capece",
+  "license": "MIT",
+  "repository": "estefi-capece/abm-angular",
+  "dependencies":{
+    "angular": "^1.4.3",
+    "angular-route": "^1.4.3",
+    "http-server": "^0.8.0",
+    "pg-promise-strict": "~0.2.1"
+  },
+  "scripts":{
+    "start": "http-server -a localhost -p 8080 -c-1"
+  }
+}
