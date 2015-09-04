@@ -18,6 +18,10 @@
             .otherwise({
                 redirectTo: "/index"
             });
+    });
+    app.controller("personasController",function(){
+        var vm=this;
+        
     })
 
 })();
