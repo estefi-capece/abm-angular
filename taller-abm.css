@@ -1,0 +1,18 @@
+#menu_superior{
+    background-color: #DDD;
+}
+
+#menu_superior span{
+    position: relative;
+    bottom:10px;
+}
+
+#menu {
+    background-color: #EEE;
+    height: 50px;
+    width: 100%;
+    
+}
+.reqPer_link{
+    color: #FF0000;
+}
