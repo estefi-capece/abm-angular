@@ -4,10 +4,14 @@ html(lang="es", ng-app="reqPerApp")
     meta(charset="utf-8")
     title Taller ABMS
     title abm-angular
+    link(rel="stylesheet", type="text/css", href="taller-abm.css")
   body
-    img.menu_icon(src="triple-igual.png")
-    span Taller ABM-AngularJs
-    #pantalla PERSONAS Y REQUERIMIENTOS
+    div.menu_superior
+      img.menu_icon(src="triple-igual.png")
+      span Taller ABM-AngularJs
+      span.error_msg {{error.message}} {{error.object}}
+    div.titulo_pagina
+      span PERSONAS Y REQUERIMIENTOS
     div.menu    
       a(href="/views/personas") PERSONAS 
       a(href="/views/requerimientos") REQUERIMIENTOS

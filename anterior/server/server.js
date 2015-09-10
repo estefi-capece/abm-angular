@@ -16,7 +16,7 @@ var fs = require('fs-promise');
 var pg = require('pg-promise-strict');
 var readYaml = require('read-yaml-promise');
 var extensionServeStatic = require('extension-serve-static');
-// var jade = require('jade');
+var jade = require('jade');
 
 var MiniTools = require('mini-tools');
 // var passport = require('passport');
@@ -28,8 +28,8 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
 
 // probar con http://localhost:12349/ajax-example
-//app.use('/',MiniTools.serveJade('client',true));
-//app.use('/',MiniTools.serveStylus('client',true));
+app.use('/',MiniTools.serveJade('client',true));
+app.use('/',MiniTools.serveStylus('client',true));
 
 var serveErr = MiniTools.serveErr;
 
