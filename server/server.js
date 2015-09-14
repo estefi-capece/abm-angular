@@ -16,7 +16,7 @@ var fs = require('fs-promise');
 var pg = require('pg-promise-strict');
 var readYaml = require('read-yaml-promise');
 var extensionServeStatic = require('extension-serve-static');
-// var jade = require('jade');
+//var jade = require('jade');
 
 var MiniTools = require('mini-tools');
 // var passport = require('passport');
@@ -27,7 +27,7 @@ var MiniTools = require('mini-tools');
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
 
-// probar con http://localhost:12349/ajax-example
+// probar con http://localhost:12349/index.html
 //app.use('/',MiniTools.serveJade('client',true));
 //app.use('/',MiniTools.serveStylus('client',true));
 
@@ -45,7 +45,7 @@ var validExts=[
     'jpg','png','gif',
     'css','js','manifest'];
 
-app.use('/',extensionServeStatic('./client', {
+app.use('/',extensionServeStatic('./', {
     index: ['index.html'], 
     extensions:[''], 
     staticExtensions:validExts

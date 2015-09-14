@@ -3,23 +3,21 @@
     app.config(function($routeProvider){
         $routeProvider
             .when("/personas",{
-                templateUrl:"client/personas",
+                templateUrl:"client/personas.html",
                 controller:"personasController",
                 controllerAs:"personas"
             })
-            .when("requerimientos",{
-                templateUrl: "client/requerimientos",
+            .when("/requerimientos",{
+                templateUrl: "client/requerimientos.html",
                 controller: "requerimientosController",
                 controllerAs: "requerimientos"
             })
             .otherwise({
                 redirectTo: "/index"
-            });
+            })
     });
     app.controller("personasController", function () {
         var vm = this;
-
-       
         vm.lista = [];
         vm.parametros={};
         vm.parametros.estado="vacio";
@@ -49,19 +47,19 @@
                     vm.parametros.mensaje_error=err.message;
                 }).then(function(){
                     $scope.$apply();
-                });                
-            };
+                })                
+            }
             
-        }
+        };
         
         // obtener lista desde JSON
         /*var url = "data/eah2013.json";
         $http.get(url).then(function (resp) {
             vm.lista = resp.data;
         });*/
-        encuestasService.getEncuestas().then(function (data) {
-            vm.lista = data;
-        });
+        // encuestasService.getEncuestas().then(function (data) {
+            // vm.lista = data;
+        // });
     });
     
 })();
