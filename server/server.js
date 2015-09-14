@@ -45,7 +45,7 @@ var validExts=[
     'jpg','png','gif',
     'css','js','manifest'];
 
-app.use('/',extensionServeStatic('./', {
+app.use('/',extensionServeStatic('./client', {
     index: ['index.html'], 
     extensions:[''], 
     staticExtensions:validExts
