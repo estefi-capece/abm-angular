@@ -16,7 +16,7 @@
                 redirectTo: "/index"
             })
     });
-    app.controller("personasController", function () {
+    app.controller("personasController", function ($scope) {
         var vm = this;
         vm.lista = [];
         vm.parametros={};
@@ -34,7 +34,7 @@
                 var parametrosLlamada={
                     url:'/persona/' + operacion,
                     data:{}
-                }
+                };
                 if((operaciones[operacion]||{}).conDni){
                     parametrosLlamada.data.dni = vm.parametros.dni;
                 }
@@ -60,6 +60,6 @@
         // encuestasService.getEncuestas().then(function (data) {
             // vm.lista = data;
         // });
-    });
+    })
     
 })();

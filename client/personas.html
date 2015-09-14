@@ -2,8 +2,25 @@
 Personas
     <div>
         <label>DNI</label> <input ng-model="personas.parametros.dni"></input>
-        <button>Traer</button><button>Siguiente</button><button>Primero</button><button>Ultimo</button>
+        <button ng-click="personas.operaciones.traer('load')">Traer</button>
+        <button>Siguiente</button>
+        <button>Primero</button>
+        <button>Ultimo</button>
     </div>
-
+    <div ng-show="personas.parametros.estado=='error'">
+        <div class="error_msg">{{personas.parametros.mensaje_error}}</div>
+    </div>
+    <div ng-show="personas.parametros.estado=='loading'">
+        <div>Loading...</div>
+    </div>
+    <div ng-show="personas.parametros.estado=='ok' && (personas.parametros.dni==personas.datos.dni || !personas.parametros.dni)"> 
+        <div id="titulo_ficha">
+            <span>Persona {{personas.datos.dni}}</span>
+            <span class="campo" ng-repeat="(campo,dato) in personas.datos">
+                <label for="campo_{{campo}}">{{campo}}</label>
+                <input ng-model="personas.datos[campo]">
+            </span>
+        </div>
+    </div>
 
 </div>
