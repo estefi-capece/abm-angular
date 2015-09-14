@@ -94,28 +94,6 @@ Promises.start(function(){
     ));
     */
 }).then(function(){
-    //ejemplo suma
-    app.use('/ejemplo/suma',function(req,res){
-        var params;
-        if(req.method==='POST'){
-            params=req.body;
-        }else{
-            params=req.query;
-        }
-        // probar con localhost:12348/ejemplo/suma?alfa=3&beta=7
-        clientDb.query('select $1::integer + $2::integer as suma',[params.alfa||1,params.beta||10]).fetchUniqueRow().then(function(result){
-            if(req.method==='POST'){
-                //res.send(''+result.rows[0].suma);
-                res.send(''+result.row.suma);
-            }else{
-                //res.send('<h1>la suma es '+result.rows[0].suma+'<h1>');
-                res.send('<h1>la suma es '+result.row.suma+'<h1>');
-            }
-        }).catch(function(err){
-            console.log('err ejemplo/suma',err);
-            throw err;
-        }).catch(serveErr);
-    });
 	//personas
     app.get('/persona/load',function(req,res){
         var params=req.query;
@@ -127,16 +105,6 @@ Promises.start(function(){
             throw err;
         }).catch(serveErr);
     });
-    app.get('/persona/siguiente',function(req,res){
-        var params=req.query;
-        // probar con localhost:12348/persona/siguiente?dni=71184210
-        clientDb.query('select * from reqper.personas where dni > $1 order by dni limit 1',[params.dni]).fetchOneRowIfExists().then(function(result){
-            res.send(JSON.stringify(result.row));
-        }).catch(function(err){
-            console.log('err persona/siguiente',err);            
-            throw err;
-        }).catch(serveErr);
-    });    
     app.get('/persona/anterior',function(req,res){
         var params=req.query;
         // probar con localhost:12348/persona/anterior?dni=71184210
@@ -144,6 +112,16 @@ Promises.start(function(){
             res.send(JSON.stringify(result.row));
         }).catch(function(err){
             console.log('err persona/anterior',err);           
+            throw err;
+        }).catch(serveErr);
+    });    
+    app.get('/persona/siguiente',function(req,res){
+        var params=req.query;
+        // probar con localhost:12348/persona/siguiente?dni=71184210
+        clientDb.query('select * from reqper.personas where dni > $1 order by dni limit 1',[params.dni]).fetchOneRowIfExists().then(function(result){
+            res.send(JSON.stringify(result.row));
+        }).catch(function(err){
+            console.log('err persona/siguiente',err);            
             throw err;
         }).catch(serveErr);
     });    

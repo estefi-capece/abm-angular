@@ -16,3 +16,23 @@
 .reqPer_link{
     color: #FF0000;
 }
+
+#error_msg {
+  color: red;
+  font-weight: bold;
+}
+
+#titulo_ficha{
+  font-weight: bold;
+  text-align: center;
+}
+
+.campo{
+  display: inline;
+  margin: 10px;
+  padding: 1px;
+  position: relative;
+  top: 2px;
+  background-color: #FEA;
+  font-size: 75%;
+}

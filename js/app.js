@@ -21,14 +21,21 @@
         vm.lista = [];
         vm.parametros={};
         vm.parametros.estado="vacio";
-        vm.parametros.dni=71184210;
+        vm.parametros.dni;/*=71184210*/
         vm.datos={};
+        vm.infoCampos={
+            dni:{tipoVisual:'dni'},
+            seleccionado:{tipoVisual:'check'},
+            cod_niv_estud:{tipoVisual:'numerico'}
+        };
         vm.operaciones={
             traer:function(operacion){
                 var operaciones={
                     load:     { conDni:true },
                     anterior: { conDni:true },
-                    siguiente:{ conDni:true }
+                    siguiente:{ conDni:true },
+                    primero:  {conDni:false},
+                    ultimo:   {conDni:false}
                 };
                 vm.parametros.estado="loading";
                 var parametrosLlamada={
@@ -51,15 +58,36 @@
             }
             
         };
-        
-        // obtener lista desde JSON
-        /*var url = "data/eah2013.json";
-        $http.get(url).then(function (resp) {
-            vm.lista = resp.data;
-        });*/
-        // encuestasService.getEncuestas().then(function (data) {
-            // vm.lista = data;
-        // });
-    })
+        app.controller("requerimientosController", function(){
+            var vm=this;
+            vm.parametros={};
+            vm.parametros.estado="vacio";
+            vm.parametros.requerimiento=10;
+            vm.operaciones={
+                traer: function(operacion){
+                    var operacion={
+                        load:      {conReq:true},
+                        anterior:  {conReq:true},
+                        siguiente: {conReq:true},
+                        primero:   {conReq:false},
+                        ultimo:    {conReq:false}
+                    };
+                    vm.parametros.estado='loading';
+                    var parametrosLlamada={
+                        url: '/requerimiento/'+ operacion,
+                        data={}
+                    };
+                    if((operaciones[operacion]||{}).conDni){
+                        parametrosLlamada.data.req = vm.parametros.req;
+                    }
+                    AjaxBestPromise.get(parametrosLlamada).then(function(reult){
+                        vm.parametros.estado='ok';
+                        
+                    })
+                }
+            }
+
+            
+        })
     
 })();

@@ -3,22 +3,24 @@ Personas
     <div>
         <label>DNI</label> <input ng-model="personas.parametros.dni"></input>
         <button ng-click="personas.operaciones.traer('load')">Traer</button>
-        <button>Siguiente</button>
-        <button>Primero</button>
-        <button>Ultimo</button>
+        <button ng-click="personas.operaciones.traer('anterior')">Anterior</button>
+        <button ng-click="personas.operaciones.traer('siguiente')">Siguiente</button>
+        <button ng-click="personas.operaciones.traer('primero')">Primero</button>
+        <button ng-click="personas.operaciones.traer('ultimo')">Ultimo</button>
     </div>
     <div ng-show="personas.parametros.estado=='error'">
         <div class="error_msg">{{personas.parametros.mensaje_error}}</div>
     </div>
     <div ng-show="personas.parametros.estado=='loading'">
-        <div>Loading...</div>
+        <div>Loading... </div>
     </div>
-    <div ng-show="personas.parametros.estado=='ok' && (personas.parametros.dni==personas.datos.dni || !personas.parametros.dni)"> 
+    <div ng-show="personas.parametros.estado=='ok' && (personas.parametros.dni=!personas.parametros.dni || personas.datos.dni  )">
         <div id="titulo_ficha">
             <span>Persona {{personas.datos.dni}}</span>
             <span class="campo" ng-repeat="(campo,dato) in personas.datos">
                 <label for="campo_{{campo}}">{{campo}}</label>
-                <input ng-model="personas.datos[campo]">
+                <input class="campo_{{personas.infoCampos[campo].tipoVisual}}" id="campo_{{campo}}" ng-model="personas.datos[campo]" ng-hide="personas.infoCampos[campo].tipoVisual=='check'">
+                <input type="checkbox" class="campo_{{personas.infoCampos[campo].tipoVisual}}" id="campo_{{campo}}" ng-model="personas.datos[campo]" ng-show="personas.infoCampos[campo].tipoVisual=='check'">
             </span>
         </div>
     </div>
