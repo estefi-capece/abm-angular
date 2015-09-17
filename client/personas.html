@@ -14,7 +14,7 @@ Personas
     <div ng-show="personas.parametros.estado=='loading'">
         <div>Loading... </div>
     </div>
-    <div ng-show="personas.parametros.estado=='ok' && (personas.parametros.dni=!personas.parametros.dni || personas.datos.dni  )">
+    <div ng-show="personas.parametros.estado=='ok' ">
         <div id="titulo_ficha">
             <span>Persona {{personas.datos.dni}}</span>
             <span class="campo" ng-repeat="(campo,dato) in personas.datos">

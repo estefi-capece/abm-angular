@@ -1,1 +1,28 @@
-<div>Requerimientos</div>
+<div>
+Requerimientos
+    <div>
+        <label>Requerimiento</label> <input ng-model="requerimientos.parametros.requerimiento"></input>
+        <button ng-click="requerimientos.operaciones.traer('load')">Traer</button>
+        <button ng-click="requerimientos.operaciones.traer('anterior')">Anterior</button>
+        <button ng-click="requerimientos.operaciones.traer('siguiente')">Siguiente</button>
+        <button ng-click="requerimientos.operaciones.traer('primero')">Primero</button>
+        <button ng-click="requerimientos.operaciones.traer('ultimo')">Ultimo</button>
+    </div>
+    <div ng-show="requerimientos.parametros.estado=='error'">
+        <div class="error_msg">{{requerimientos.parametros.mensaje_error}}</div>
+    </div>
+    <div ng-show="requerimientos.parametros.estado=='loading'">
+        <div>Loading... </div>
+    </div>
+<!--     && (requerimientos.parametros.requerimiento=!requerimientos.parametros.requerimiento || requerimientos.datos.requerimiento) -->
+    <div ng-show="requerimientos.parametros.estado=='ok' ">
+        <div id="titulo_ficha">
+            <span>Requerimientos {{requerimientos.datos.requerimiento}}</span>
+            <span class="campo" ng-repeat="(campo,dato) in requerimientos.datos">
+                <label for="campo_{{campo}}">{{campo}}</label>
+                <input class="campo_{{requerimientos.infoCampos[campo].tipoVisual}}" id="campo_{{campo}}" ng-model="requerimientos.datos[campo]" ng-hide="requerimientos.infoCampos[campo].tipoVisual=='check'">
+                <input type="checkbox" class="campo_{{requerimientos.infoCampos[campo].tipoVisual}}" id="campo_{{campo}}" ng-model="requerimientos.datos[campo]" ng-show="requerimientos.infoCampos[campo].tipoVisual=='check'">
+            </span>
+        </div>
+    </div>
+</div>

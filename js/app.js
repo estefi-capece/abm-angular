@@ -21,7 +21,7 @@
         vm.lista = [];
         vm.parametros={};
         vm.parametros.estado="vacio";
-        vm.parametros.dni;/*=71184210*/
+        vm.parametros.dni;/*71184210*/
         vm.datos={};
         vm.infoCampos={
             dni:{tipoVisual:'dni'},
@@ -49,6 +49,7 @@
                     vm.parametros.estado="ok";
                     vm.datos=JSON.parse(result);
                     vm.campos=Object.keys(vm.datos);
+                    vm.parametros.dni=vm.datos.dni;
                 }).catch(function(err){
                     vm.parametros.estado="error";
                     vm.parametros.mensaje_error=err.message;
@@ -58,36 +59,45 @@
             }
             
         };
-        app.controller("requerimientosController", function(){
-            var vm=this;
-            vm.parametros={};
-            vm.parametros.estado="vacio";
-            vm.parametros.requerimiento=10;
-            vm.operaciones={
-                traer: function(operacion){
-                    var operacion={
-                        load:      {conReq:true},
-                        anterior:  {conReq:true},
-                        siguiente: {conReq:true},
-                        primero:   {conReq:false},
-                        ultimo:    {conReq:false}
-                    };
-                    vm.parametros.estado='loading';
-                    var parametrosLlamada={
-                        url: '/requerimiento/'+ operacion,
-                        data={}
-                    };
-                    if((operaciones[operacion]||{}).conDni){
-                        parametrosLlamada.data.req = vm.parametros.req;
-                    }
-                    AjaxBestPromise.get(parametrosLlamada).then(function(reult){
-                        vm.parametros.estado='ok';
-                        
-                    })
+    });
+    app.controller("requerimientosController", function($scope){
+        var vm=this;
+        vm.parametros={};
+        vm.parametros.estado="vacio";
+        vm.parametros.requerimiento;//=10
+        vm.datos={};
+        vm.operaciones={
+            traer: function(operacion){
+                var operaciones={
+                    load:      {conReq:true},
+                    anterior:  {conReq:true},
+                    siguiente: {conReq:true},
+                    primero:   {conReq:false},
+                    ultimo:    {conReq:false}
+                };
+                vm.parametros.estado='loading';
+                var parametrosLlamada={
+                    url: '/requerimiento/'+ operacion,
+                    data:{}
+                };
+                if((operaciones[operacion]||{}).conReq){
+                    parametrosLlamada.data.req = vm.parametros.requerimiento;
                 }
+                AjaxBestPromise.get(parametrosLlamada).then(function(result){
+                    vm.parametros.estado='ok';
+                    vm.datos=JSON.parse(result); 
+                    vm.campos=Object.keys(vm.datos);
+   //                 vm.parametros.requerimiento=vm.datos.requerimiento;
+                    console.log(vm.datos.req_req);
+                    vm.parametros.requerimiento=vm.datos.req_req;
+                }).catch(function(err){
+                vm.parametros.estado="error";
+                vm.parametros.mensaje_error=err.message;
+                }).then(function(){
+                    $scope.$apply();
+                })
             }
-
-            
-        })
+        }; 
+    });
     
 })();
