@@ -170,8 +170,6 @@ Promises.start(function(){
     });	
     app.get('/requerimiento/siguiente',function(req,res){
         var params=req.query;
-//        clientDb.query('select * from reqper.personas where dni > $1 order by dni limit 1',[params.dni])
-        // probar con localhost:12348/requerimiento/siguiente?req_proy=NUEVOPROY&req_req=8
         clientDb.query('select * from reqper.requerimientos where req_req > $1 order by req_req limit 1',[params.req]).fetchOneRowIfExists().then(function(result){
   			res.send(JSON.stringify(result.row));
         }).catch(function(err){
@@ -181,8 +179,10 @@ Promises.start(function(){
     });
     app.get('/requerimiento/anterior',function(req,res){
         var params=req.query;
+        console.log(params.req);
         // probar con localhost:12348/requerimiento/anterior?req_proy=NUEVOPROY&req_req=8
-        clientDb.query('select * from reqper.requerimientos where req_proy < $1 or (req_proy = $1 and comun.para_ordenar_numeros(req_req) < comun.para_ordenar_numeros($2)) order by (req_proy, comun.para_ordenar_numeros(req_req)) desc LIMIT 1',[params.req_proy,params.req_req]).fetchOneRowIfExists().then(function(result){
+        clientDb.query('select * from reqper.requerimientos where req_req < $1 order by req_req desc limit 1',[params.req]).fetchOneRowIfExists().then(function(result){
+            
             res.send(JSON.stringify(result.row));
         }).catch(function(err){
             console.log('err requerimiento/anterior',err);            
@@ -192,7 +192,7 @@ Promises.start(function(){
     app.get('/requerimiento/primero',function(req,res){
         var params=req.query;
         // probar con localhost:12348/requerimiento/primero
-        clientDb.query('select * from reqper.requerimientos order by req_proy, comun.para_ordenar_numeros(req_req) limit 1',null).fetchOneRowIfExists().then(function(result){
+        clientDb.query('select * from reqper.requerimientos order by req_req limit 1',null).fetchOneRowIfExists().then(function(result){
             res.send(JSON.stringify(result.row));
         }).catch(function(err){
             console.log('err requerimiento/primero',err);            
@@ -202,7 +202,8 @@ Promises.start(function(){
     app.get('/requerimiento/ultimo',function(req,res){
         var params=req.query;
         // probar con localhost:12348/requerimiento/ultimo
-        clientDb.query('select * from reqper.requerimientos order by (req_proy, comun.para_ordenar_numeros(req_req)) desc limit 1',null).fetchOneRowIfExists().then(function(result){
+        //'select * from reqper.personas order by dni desc limit 1'
+        clientDb.query('select * from reqper.requerimientos order by req_req desc limit 1',null).fetchOneRowIfExists().then(function(result){
             res.send(JSON.stringify(result.row));
         }).catch(function(err){
             console.log('err requerimiento/ultimo',err);            

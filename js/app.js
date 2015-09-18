@@ -83,12 +83,12 @@
                 if((operaciones[operacion]||{}).conReq){
                     parametrosLlamada.data.req = vm.parametros.requerimiento;
                 }
+                console.log(parametrosLlamada.data.req);
                 AjaxBestPromise.get(parametrosLlamada).then(function(result){
+                    console.log('Hola mundo');
                     vm.parametros.estado='ok';
                     vm.datos=JSON.parse(result); 
                     vm.campos=Object.keys(vm.datos);
-   //                 vm.parametros.requerimiento=vm.datos.requerimiento;
-                    console.log(vm.datos.req_req);
                     vm.parametros.requerimiento=vm.datos.req_req;
                 }).catch(function(err){
                 vm.parametros.estado="error";
