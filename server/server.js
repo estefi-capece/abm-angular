@@ -17,19 +17,37 @@ var pg = require('pg-promise-strict');
 var readYaml = require('read-yaml-promise');
 var extensionServeStatic = require('extension-serve-static');
 //var jade = require('jade');
-
+var crypto = require('crypto');
 var MiniTools = require('mini-tools');
 // var passport = require('passport');
 // var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 // var LocalStrategy = require('passport-local').Strategy;
 // var crypto = require('crypto');
+function md5(text){
+    return crypto.createHash('md5').update(text).digest('hex');
+}
+
+var middlewareLogger=(function(){
+    var cantidad=0;
+    return function(signo){
+        return function(req,res,next){
+            cantidad++;
+            next();
+        };
+    };
+})();
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
 
+app.use(middlewareLogger(':'));
+
 // probar con http://localhost:12349/index.html
 //app.use('/',MiniTools.serveJade('client',true));
 //app.use('/',MiniTools.serveStylus('client',true));
+var loginPlus = require('../unlogged/login-plus.js');
+
+loginPlus.init(app,{ });
 
 var serveErr = MiniTools.serveErr;
 
@@ -79,20 +97,29 @@ Promises.start(function(){
 }).then(function(client){
     console.log("CONECTED TO", actualConfig.db.database);
     clientDb=client;
-    /*
-    passport.use(new LocalStrategy(
+    loginPlus.setValidator(
         function(username, password, done) {
-            console.log("TRYING TO CONNECT",username, password);
-            client
-                .query('SELECT * FROM inter.users WHERE username=$1 AND hashpass=$2',[username, md5(password+username.toLowerCase())])
-                .fetchUniqueRow()
-                .then(function(data){
-                    console.log("LOGGED IN",data.row);
-                    done(null, data.row);
-                }).catch(logAndThrow).catch(done);
+            //console.log("Hola mundo"); 
+            console.log('intento de entrar de ',username,password);
+            clientDb.query(
+                'SELECT usuario as username FROM reqper.usuarios WHERE usuario=$1 AND clavemd5=$2',
+                [username, md5(password+username.toLowerCase())]
+            ).fetchUniqueRow().then(function(data){
+                console.log('datos traidos',data.row);
+                done(null, data.row);
+            }).catch(function(err){
+                console.log('err',err);
+                if(err.code==='54011!'){
+                    done('Error en usuario o clave');
+                }else{
+                    throw err;
+                }
+            }).catch(function(err){
+                console.log('error logueando',err);
+                console.log('stack',err.stack);
+            }).catch(done);
         }
-    ));
-    */
+    );
 }).then(function(){
 	//personas
     app.get('/persona/load',function(req,res){
@@ -107,7 +134,7 @@ Promises.start(function(){
     });
     app.get('/persona/anterior',function(req,res){
         var params=req.query;
-        // probar con localhost:12348/persona/anterior?dni=71184210
+
         clientDb.query('select * from reqper.personas where dni < $1 order by dni desc limit 1',[params.dni]).fetchOneRowIfExists().then(function(result){
             res.send(JSON.stringify(result.row));
         }).catch(function(err){
