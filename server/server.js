@@ -99,7 +99,7 @@ Promises.start(function(){
     clientDb=client;
     loginPlus.setValidator(
         function(username, password, done) {
-            //console.log("Hola mundo"); 
+            
             console.log('intento de entrar de ',username,password);
             clientDb.query(
                 'SELECT usuario as username FROM reqper.usuarios WHERE usuario=$1 AND clavemd5=$2',
