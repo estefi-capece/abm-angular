@@ -50,7 +50,7 @@ loginPlus.init = function init(app,opts){
 
     app.post('/login',
        passport.authenticate('local',{ 
-            successRedirect: '#/personas',
+            successRedirect: '/index.html',
 //            successRedirect: '/client/personas.html',
 //            successRedirect: '/personas.html#/personas',
             failureRedirect: '/login',

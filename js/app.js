@@ -12,8 +12,11 @@
                 controller: "requerimientosController",
                 controllerAs: "requerimientos"
             })
+            .when("/menu",{
+                templateUrl: "client/menu.html",
+            })
             .otherwise({
-                redirectTo: "/index"
+                redirectTo: "/menu"
             })
     });
     app.controller("personasController", function ($scope) {
