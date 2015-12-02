@@ -30,9 +30,9 @@ loginPlus.init = function init(app,opts){
         extensions:[''], 
         staticExtensions:loginPlus.validExts
     }));
-    
+
     app.use(session({ secret: loginPlus.secret, resave:false, saveUninitialized:true }));
-    app.use(passport.initialize());
+    app.use(passport.initialize());    
     app.use(passport.session({ secret: loginPlus.secret }));
 
     var fileNameLogin=opts.unloggedPath+'\\login.html';
@@ -44,24 +44,28 @@ loginPlus.init = function init(app,opts){
         }
     });
         
-    app.use('/',function(req,res){
+    app.get('/login',function(req,res){
        res.redirect('/login.html');
     });
 
     app.post('/login',
-      passport.authenticate('local', { successRedirect: '/personas.html#/requerimientos',
-                                       failureRedirect: '/unlogged/login.html',
-                                       failureFlash: true })
+       passport.authenticate('local',{ 
+            successRedirect: '#/personas',
+//            successRedirect: '/client/personas.html',
+//            successRedirect: '/personas.html#/personas',
+            failureRedirect: '/login',
+            failureFlash: true }
+            )
     );
 
     passport.serializeUser(function(user, done) {
         loginPlus.savedUser[user.username] = user;
-        console.log('SERIALIZE',loginPlus.savedUser,user);
+//        console.log('SERIALIZE',loginPlus.savedUser,user);
         done(null, user.username);
     });
 
     passport.deserializeUser(function(username, done) {
-        console.log('deSERIALIZE',loginPlus.savedUser,username);
+//        console.log('deSERIALIZE',loginPlus.savedUser,username);
         done(null, loginPlus.savedUser[username]);
     });
 

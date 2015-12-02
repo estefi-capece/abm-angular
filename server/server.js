@@ -99,13 +99,13 @@ Promises.start(function(){
     clientDb=client;
     loginPlus.setValidator(
         function(username, password, done) {
-            
             console.log('intento de entrar de ',username,password);
             clientDb.query(
-                'SELECT usuario as username FROM reqper.usuarios WHERE usuario=$1 AND clavemd5=$2',
-                [username, md5(password+username.toLowerCase())]
+                'SELECT usu_usu as username FROM reqper.usuarios WHERE usu_usu=$1 AND usu_clave=$2',
+                [username, md5(password)]
+//                [username, md5(password+username.toLowerCase())]
             ).fetchUniqueRow().then(function(data){
-                console.log('datos traidos',data.row);
+//                console.log('datos traidos',data.row);
                 done(null, data.row);
             }).catch(function(err){
                 console.log('err',err);

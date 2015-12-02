@@ -3,7 +3,7 @@
     app.config(function($routeProvider){
         $routeProvider
             .when("/personas",{
-                templateUrl:"client/personas.html",
+                templateUrl:"/client/personas.html",
                 controller:"personasController",
                 controllerAs:"personas"
             })
