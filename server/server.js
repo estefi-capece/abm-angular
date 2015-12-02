@@ -53,8 +53,8 @@ var serveErr = MiniTools.serveErr;
 
 var mime = extensionServeStatic.mime;
 
-app.use('/',extensionServeStatic('./node_modules/angular', {staticExtensions:'js'}));
-app.use('/',extensionServeStatic('./node_modules/angular-route', {staticExtensions:'js'}));
+app.use('/special/angular',extensionServeStatic('./node_modules/angular', {staticExtensions:'js'}));
+app.use('/special/angular-route',extensionServeStatic('./node_modules/angular-route', {staticExtensions:'js'}));
 app.use('/',extensionServeStatic('./node_modules/ajax-best-promise/bin', {staticExtensions:'js'}));
 
 
@@ -63,7 +63,7 @@ var validExts=[
     'jpg','png','gif',
     'css','js','manifest'];
 
-app.use('/',extensionServeStatic('./', {
+app.use('/',extensionServeStatic('client', {
     index: ['index.html'], 
     extensions:[''], 
     staticExtensions:validExts

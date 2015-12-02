@@ -3,17 +3,17 @@
     app.config(function($routeProvider){
         $routeProvider
             .when("/personas",{
-                templateUrl:"/client/personas.html",
+                templateUrl:"/personas.html",
                 controller:"personasController",
                 controllerAs:"personas"
             })
             .when("/requerimientos",{
-                templateUrl: "client/requerimientos.html",
+                templateUrl: "/requerimientos.html",
                 controller: "requerimientosController",
                 controllerAs: "requerimientos"
             })
             .when("/menu",{
-                templateUrl: "client/menu.html",
+                templateUrl: "/menu.html",
             })
             .otherwise({
                 redirectTo: "/menu"
